@@ -8,7 +8,6 @@ let register = async (req: Request, res: Response) => {
   try {
     const {
       email,
-      password,
       name,
       lastName,
       establecimiento,
@@ -16,6 +15,7 @@ let register = async (req: Request, res: Response) => {
       municipio,
       direccion,
       phoneNumber,
+      password
     } = req.body;
 
     const salt = await bcrypt.genSalt(10);
