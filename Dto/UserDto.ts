@@ -9,10 +9,14 @@ class User {
     telefono: string;
     password: string
     constructor(
-        email: string, nombres: string,
-        establecimiento:string, departamento: string, 
-        municipio: string, direccion:string,
-        apellidos: string, telefono: string,
+        email: string, 
+        nombres: string,
+        apellidos: string, 
+        establecimiento:string, 
+        departamento: string, 
+        municipio: string, 
+        direccion:string,
+        telefono: string,
         password: string
     ) {
         this.email = email;

@@ -11,11 +11,8 @@ class UserRepository {
 
         static async sel(email : string) {
             try {
-              // Realizar una consulta SQL para buscar un usuario por su correo electrónico
               const query = 'SELECT * FROM users WHERE email = ?';
               const values = [email];
-
-              // Devolver los resultados de la consulta
               return await db.execute(query, values);
 
             } catch (error) {
@@ -24,6 +21,12 @@ class UserRepository {
               throw error;
             }
           }
+
+          static async verytoken(user: User){
+            const sql = 'SELECT * FROM users WHERE nombres =?'
+            const values = [user.nombres];
+            return db.execute(sql, values);
+        }
     }
 
 

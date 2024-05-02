@@ -1,16 +1,16 @@
 import express from "express";
 import bodyParser from 'body-parser';
-
 import register from './routes/register';
 import auth from './routes/auth';
-
 import dotenv from "dotenv";
+import validartoken from "./routes/validar-token"
 dotenv.config();
 
 const app = express().use(bodyParser.json());
 
 app.use('/register', register);
 app.use('/auth', auth);
+app.use('/verificartoken', validartoken)
 
 const PORT = process.env.PORT || 10101;
 

@@ -13,3 +13,7 @@ const db = mysql.createPool({
   });
   
 export default db.promise()
+
+//  ../config/config-db.js
+const secretKey = '1234'; 
+export {secretKey};
