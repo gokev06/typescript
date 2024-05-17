@@ -4,6 +4,7 @@ import register from './routes/register';
 import auth from './routes/auth';
 import dotenv from "dotenv";
 import validartoken from "./routes/validar-token"
+import pedidos from "./routes/pedidos";
 dotenv.config();
 
 const app = express().use(bodyParser.json());
@@ -11,6 +12,7 @@ const app = express().use(bodyParser.json());
 app.use('/register', register);
 app.use('/auth', auth);
 app.use('/verificartoken', validartoken)
+app.use('/pedir', pedidos)
 
 const PORT = process.env.PORT || 10101;
 

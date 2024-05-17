@@ -3,7 +3,7 @@ import db from '../config/config-db';
 
  let verytoken = async(req: Request, res:Response)=>{
     try {
-        const data = await db.query('SELECT * FROM users');
+        const data = await db.query('SELECT * FROM productos');
         res.json({
             data
         });

@@ -4,8 +4,15 @@ import bcrypt from 'bcryptjs';
 import Auth from '../Dto/authDto';
 
 class UserRepository {
+  static db: any;
 
     static async add(user: User){
+      if (!user.email.includes('@')) {
+        throw new Error('Email must contain "@" symbol');
+    }
+    if (user.password.length < 8) {
+        throw new Error('Password must be at least 8 characters long');
+    }
         const sql = 'INSERT INTO users (email, nombres, apellidos,establecimiento,departamento,municipio, direccion, telefono, password) VALUES (?, ?, ?,?,?, ? , ?, ?, ?)';
         const values = [user.email, user.nombres,user.apellidos,user.establecimiento,user.departamento, user.municipio, user.direccion,  user.telefono, user.password];
         return db.execute(sql, values);

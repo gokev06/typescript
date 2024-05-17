@@ -1,26 +1,39 @@
-import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
+import { Request, Response, NextFunction } from 'express';
+import jwt, { TokenExpiredError, JsonWebTokenError } from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const validateToken = async (req: Request, res: Response, next: NextFunction) => {
-    const headerToken = req.headers['authorization'];
+    try {
+        const headerToken = req.headers['authorization'];
 
-    if (headerToken != undefined && headerToken.startsWith('Bearer ')) {
-        const bearerToken = headerToken.slice(7);
-        console.log(bearerToken);
-        try {
-            const tokenValido = await jwt.verify(bearerToken, process.env.SECRET_KEY || '1234');
-            console.log(tokenValido);
-            next();
-        } catch (error) {
-            res.status(400).json({
-                status: 'Acceso denegado',
+        if (headerToken && headerToken.startsWith('Bearer ')) {
+            
+            const bearerToken = headerToken.split(' ')[2].trim();
+            console.log(bearerToken);
+              
+                  
+            jwt.verify(bearerToken, process.env.SECRET_KEY || '1234', (err) => {
+                if (err) {
+                    if (err instanceof TokenExpiredError) {
+                        return res.status(401).json({ status: "autorizacion denegada: token expirado" });
+                    }
+                    if (err instanceof JsonWebTokenError) {
+                        return res.status(401).json({ status: "autorizacion denegada: token invalido" });
+                    }
+                }
+                // Si el token es válido, pasa la solicitud al siguiente middleware
+                next();
             });
+        } else {
+            // Si no se proporciona un token en el encabezado de autorización
+            res.status(401).json({ status: 'Acceso denegado: Token no proporcionado' });
         }
-    } else {
-        res.status(400).json({
-            status: 'Acceso denegado: Token no proporcionado'
-        });
+    } catch (error) {
+        // Si ocurre un error durante la validación del token
+        console.error("Error durante la validación del token:", error);
+        res.status(500).json({ message: "Error interno del servidor" });
     }
-}
+};
 
 export default validateToken;
