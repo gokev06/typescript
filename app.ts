@@ -8,6 +8,7 @@ import pedidos from "./routes/pedidos";
 dotenv.config();
 
 const app = express().use(bodyParser.json());
+app.use(express.urlencoded({extended: false}));
 
 app.use('/register', register);
 app.use('/auth', auth);
